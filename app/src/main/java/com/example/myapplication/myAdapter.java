@@ -17,20 +17,10 @@ public class myAdapter extends RecyclerView.Adapter<myAdapter.viewHolder> {
 
     private final Context context;
     private final List<User> userList;
-    private final List<Debt> debtList;
-    private final List<Credit> creditList;
-    private final List<Contact> contactList;
-    private final List<Account> accountList;
-    private final List<Job> jobList;
 
-    public myAdapter(Context context, List<User> userList, List<Debt> debt, List<Credit> credit, List<Contact> contact, List<Account> account, List<Job> job) {
+    public myAdapter(Context context, List<User> userList) {
         this.context = context;
         this.userList = userList;
-        this.debtList = debt;
-        this.creditList = credit;
-        this.contactList = contact;
-        this.accountList = account;
-        this.jobList = job;
     }
 
     @NonNull
@@ -43,18 +33,18 @@ public class myAdapter extends RecyclerView.Adapter<myAdapter.viewHolder> {
     @Override
     public void onBindViewHolder(@NonNull viewHolder holder, int position) {
         User user = userList.get(position);
-        Debt debt = debtList.get(position);
-        Credit credit = creditList.get(position);
-        Contact contact = contactList.get(position);
-        Account account = accountList.get(position);
-        Job job = jobList.get(position);
+        Debt debt = userList.get(position).getDebt();
+        Credit credit = userList.get(position).getCredit();
+        Contact contact = userList.get(position).getContact();
+        Account account = userList.get(position).getAccount();
+        Job job = userList.get(position).getJob();
 
         holder.user.setText(user.getClass().getSimpleName() + " " + user.getId());
-        holder.debt.setText(debt.getClass().getSimpleName() + " " + debt.getId());
-        holder.credit.setText(credit.getClass().getSimpleName() + " " + credit.getId());
-        holder.contact.setText(contact.getClass().getSimpleName() + " " + contact.getId());
-        holder.account.setText(account.getClass().getSimpleName() + " " + account.getId());
-        holder.job.setText(job.getClass().getSimpleName() + " " + job.getId());
+        holder.debt.setText(debt.getClass().getSimpleName() + " " + debt.getUserId());
+        holder.credit.setText(credit.getClass().getSimpleName() + " " + credit.getUserId());
+        holder.contact.setText(contact.getClass().getSimpleName() + " " + contact.getUserId());
+        holder.account.setText(account.getClass().getSimpleName() + " " + account.getUserId());
+        holder.job.setText(job.getClass().getSimpleName() + " " + job.getUserId());
 
     }
 

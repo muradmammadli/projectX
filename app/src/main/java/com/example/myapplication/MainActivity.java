@@ -55,48 +55,43 @@ public class MainActivity extends AppCompatActivity {
             accountList.add(new Account(i, i));
         }
 
-        HashMap<Integer, List<Debt>> debts = new HashMap<>();
-        HashMap<Integer, List<Credit>> credits = new HashMap<>();
-        HashMap<Integer, List<Contact>> contacts = new HashMap<>();
-        HashMap<Integer, List<Account>> accounts = new HashMap<>();
-        HashMap<Integer, List<Job>> jobs = new HashMap<>();
+        HashMap<Integer, Debt> debts = new HashMap<>();
+        HashMap<Integer, Credit> credits = new HashMap<>();
+        HashMap<Integer, Contact> contacts = new HashMap<>();
+        HashMap<Integer, Account> accounts = new HashMap<>();
+        HashMap<Integer, Job> jobs = new HashMap<>();
         for (Debt debt : debtList) {
-            debts.put(debt.getUserId(), debtList);
+            debts.put(debt.getUserId(), debt);
         }
         for (Credit credit : creditList) {
-            credits.put(credit.getUserId(), creditList);
+            credits.put(credit.getUserId(), credit);
         }
         for (Contact contact : contactList) {
-            contacts.put(contact.getUserId(), contactList);
+            contacts.put(contact.getUserId(), contact);
         }
         for (Account account : accountList) {
-            accounts.put(account.getUserId(), accountList);
+            accounts.put(account.getUserId(), account);
         }
         for (Job job : jobList) {
-            jobs.put(job.getUserId(), jobList);
+            jobs.put(job.getUserId(), job);
         }
         for (Debt debt : debtList) {
-            debts.put(debt.getUserId(), debtList);
+            debts.put(debt.getUserId(), debt);
         }
 
         for (User user : userList) {
-            debt = debts.get(user.getId());
-            credit = credits.get(user.getId());
-            job = jobs.get(user.getId());
-            account = accounts.get(user.getId());
-            contact = contacts.get(user.getId());
+            user.setDebt(debts.get(user.getId()));
+            user.setAccount(accounts.get(user.getId()));
+            user.setContact(contacts.get(user.getId()));
+            user.setCredit(credits.get(user.getId()));
+            user.setJob(jobs.get(user.getId()));
         }
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
-        mAdapter = new myAdapter(this,userList,debt,credit,contact,account,job);
+        mAdapter = new myAdapter(this,userList);
         recyclerView.setAdapter(mAdapter);
-//        for (User user : userList) {
-//            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-//                Debt debt = debtList.stream().filter(a -> a.getId() == user.getId()).collect(Collectors.toList()).get(0);
-//                Log.d("debt", String.valueOf(debt));
-//            }
-//        }
+
 
     }
 }
