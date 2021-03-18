@@ -33,11 +33,11 @@ public class myAdapter extends RecyclerView.Adapter<myAdapter.viewHolder> {
     @Override
     public void onBindViewHolder(@NonNull viewHolder holder, int position) {
         User user = userList.get(position);
-        Debt debt = user.getDebt();
-        Credit credit = user.getCredit();
-        Contact contact = user.getContact();
-        Account account = user.getAccount();
-        Job job = user.getJob();
+        Debt debt = user.getDebtList().get(position);
+        Credit credit = user.getCreditList().get(position);
+        Contact contact = user.getContactList().get(position);
+        Account account = user.getAccountList().get(position);
+        Job job = user.getJobList().get(position);
 
         holder.user.setText(user.getClass().getSimpleName() + " " + user.getId());
         holder.debt.setText(debt.getClass().getSimpleName() + " " + debt.getUserId());

@@ -55,36 +55,34 @@ public class MainActivity extends AppCompatActivity {
             accountList.add(new Account(i, i));
         }
 
-        HashMap<Integer, Debt> debts = new HashMap<>();
-        HashMap<Integer, Credit> credits = new HashMap<>();
-        HashMap<Integer, Contact> contacts = new HashMap<>();
-        HashMap<Integer, Account> accounts = new HashMap<>();
-        HashMap<Integer, Job> jobs = new HashMap<>();
+        HashMap<Integer, List<Debt>> debtMap = new HashMap<>();
+        HashMap<Integer, List<Credit>> creditMap = new HashMap<>();
+        HashMap<Integer, List<Contact>> contactMap = new HashMap<>();
+        HashMap<Integer, List<Account>> accountMap = new HashMap<>();
+        HashMap<Integer, List<Job>> jobs = new HashMap<>();
         for (Debt debt : debtList) {
-            debts.put(debt.getUserId(), debt);
+            debtMap.put(debt.getUserId(), debtList);
         }
         for (Credit credit : creditList) {
-            credits.put(credit.getUserId(), credit);
+            creditMap.put(credit.getUserId(), creditList);
         }
         for (Contact contact : contactList) {
-            contacts.put(contact.getUserId(), contact);
+            contactMap.put(contact.getUserId(), contactList);
         }
         for (Account account : accountList) {
-            accounts.put(account.getUserId(), account);
+            accountMap.put(account.getUserId(), accountList);
         }
         for (Job job : jobList) {
-            jobs.put(job.getUserId(), job);
-        }
-        for (Debt debt : debtList) {
-            debts.put(debt.getUserId(), debt);
+            jobs.put(job.getUserId(), jobList);
         }
 
+
         for (User user : userList) {
-            user.setDebt(debts.get(user.getId()));
-            user.setAccount(accounts.get(user.getId()));
-            user.setContact(contacts.get(user.getId()));
-            user.setCredit(credits.get(user.getId()));
-            user.setJob(jobs.get(user.getId()));
+            user.setDebtList(debtMap.get(user.getId()));
+            user.setAccountList(accountMap.get(user.getId()));
+            user.setContactList(contactMap.get(user.getId()));
+            user.setCreditList(creditMap.get(user.getId()));
+            user.setJobList(jobs.get(user.getId()));
         }
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -92,6 +90,13 @@ public class MainActivity extends AppCompatActivity {
         mAdapter = new myAdapter(this,userList);
         recyclerView.setAdapter(mAdapter);
 
+
+//        for (User user : userList) {
+//            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+//                Debt debt = debtList.stream().filter(a -> a.getId() == user.getId()).collect(Collectors.toList()).get(0);
+//                Log.d("debt", String.valueOf(debt));
+//            }
+//        }
 
     }
 }
