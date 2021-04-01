@@ -13,7 +13,9 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -22,7 +24,11 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -32,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String MY_IMAGE = "myImage";
     SharedPreferences.Editor editor;
     SharedPreferences preferences;
+    OutputStream outputStream;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,13 +84,28 @@ public class MainActivity extends AppCompatActivity {
             editor = getSharedPreferences(MY_IMAGE, MODE_PRIVATE).edit();
             editor.putString("image", getImageUri(this, captureImage));
             editor.apply();
+
+            File filePath = Environment.getExternalStorageDirectory();
+            File dir = new File(filePath.getAbsolutePath() + "/Photos/");
+            dir.mkdir();
+
+            File file = new File(dir, System.currentTimeMillis() + ".jpg");
+
+            try {
+                outputStream = new FileOutputStream(file);
+                captureImage.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+                outputStream.close();
+                outputStream.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
     public String getImageUri(Context context, Bitmap bitmap) {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-        String path = MediaStore.Images.Media.insertImage(context.getContentResolver(), bitmap, "Title", null);
+        String path = MediaStore.Images.Media.insertImage(context.getContentResolver(), bitmap, "image", null);
         return path;
     }
 }
